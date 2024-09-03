@@ -51,32 +51,17 @@ brew install gcc boost eigen gsl
 ### SARAH 4.15.2
 
 We will make heavy use of SARAH [https://sarah.hepforge.org/]. Before
-the workshop starts, SARAH should be installed.  There are two methods
-to install SARAH:
-
-* Method 1: automatic download and installation
-  ~~~.sh
-  mkdir -p ~/hep-software && cd ~/hep-software
-  wget https://raw.githubusercontent.com/FlexibleSUSY/FlexibleSUSY/development/install-sarah
-  chmod +x install-sarah
-  ./install-sarah --flavour=WolframEngine
-  ~~~
-* Method 2: manual download:
-  ~~~.sh
-  cd ~/.WolframEngine/Applications
-  wget https://sarah.hepforge.org/downloads/SARAH-4.15.2.tar.gz
-  tar -xf SARAH-4.15.2.tar.gz
-  ln -s SARAH-4.15.2 SARAH
-  ~~~
-  and installation:
-  ~~~.sh
-  cd ~/.WolframEngine/Kernel
-  echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, ".WolframEngine", "Applications", "SARAH"}]];' >> init.m
-  ~~~
-
-Test the SARAH installation:
+the workshop starts, SARAH should be installed:
 ~~~.sh
-math -run "<< SARAH\`"
+mkdir -p ~/hep-software && cd ~/hep-software
+wget https://sarah.hepforge.org/downloads/SARAH-4.15.2.tar.gz
+tar -xf SARAH-4.15.2.tar.gz
+ln -s SARAH-4.15.2 SARAH
+echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, "hep-software", "SARAH"}]];' >> ~/.WolframEngine/Kernel/init.m
+~~~
+Afterwards, please test the SARAH installation:
+~~~.sh
+math -run "<< SARAH\`; Quit[]"
 ~~~
 
 ### SPheno
@@ -97,4 +82,22 @@ download and extract it before the workshop starts:
 mkdir -p ~/hep-software && cd ~/hep-software
 wget https://flexiblesusy.hepforge.org/downloads/FlexibleSUSY-2.8.0.tar.gz
 tar -xf FlexibleSUSY-2.8.0.tar.gz
+~~~
+
+### FeynArts and FormCalc
+
+For the calculation of decays with FlexibleDecay we'll need FeynArts
+and FormCalc. They can be most convenienty installed as (hit `y`
+everytime you get asked to install a package):
+~~~.sh
+mkdir -p ~/hep-software && cd ~/hep-software
+wget https://feynarts.de/FeynInstall
+chmod 755 FeynInstall
+./FeynInstall
+echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, "hep-software", "FeynArts"}]];' >> ~/.WolframEngine/Kernel/init.m
+echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, "hep-software", "FormCalc"}]];' >> ~/.WolframEngine/Kernel/init.m
+~~~
+Afterwards, please test the FeynArts/FormCalc installations:
+~~~.sh
+math -run "<< FeynArts\`; << FormCalc\`; Quit[]"
 ~~~
