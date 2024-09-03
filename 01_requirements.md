@@ -101,3 +101,10 @@ Afterwards, please test the FeynArts/FormCalc installations:
 ~~~.sh
 math -run "<< FeynArts\`; << FormCalc\`; Quit[]"
 ~~~
+Finally, we have to re-compile LoopTools with `-fPIC`:
+~~~.sh
+cd ~/hep-software/LoopTools
+make clean
+FFLAGS="-O3 -fPIC" ./configure
+make
+~~~

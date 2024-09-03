@@ -62,7 +62,7 @@ cd ~/hep-software/FlexibleSUSY-2.8.0
 Create the Standard Model (`SM`) spectrum genrator, configure it and compile it:
 ~~~.sh
 ./createmodel -f --name=SM
-./configure --with-models=SM
+./configure --with-models=SM --with-loop-libraries=looptools --with-looptools-incdir=$HOME/hep-software/LoopTools/x86_64-Linux/include/ --with-looptools-libdir=$HOME/hep-software/LoopTools/x86_64-Linux/lib64/
 make -j4
 ~~~
 Run the spectrum generator:
@@ -76,7 +76,7 @@ Let's create an extension of the SM by a new scalar singlet field that
 mixes with the Higgs boson. We'll call it "Singlet Extended Standard
 Model" (SESM). The Lagrangian should be:
 
-$$\mathcal{L} = \mathcal{L}_{SM} - K_1 s - \frac{K_2}{2} s^2 - \frac{K_3}{6} s^3 - \frac{K_4}{24} s^4 - K_5 H^\dagger H s - \frac{K_6}{2} H^\dagger H s^2$$
+$$\mathcal{L} = \mathcal{L}_{SM} - \left(\frac{M_s}{2} s^2 + \frac{K_2}{2} H^\dagger H s^2 + \frac{\kappa}{3} s^3 + \frac{\lambda_s}{2} s^4\right)$$
 
 1. We start from the SM and copy the SM model files:
    ~~~.sh
@@ -91,7 +91,7 @@ $$\mathcal{L} = \mathcal{L}_{SM} - K_1 s - \frac{K_2}{2} s^2 - \frac{K_3}{6} s^3
    ParticleDefinitions[GaugeES] = {
      {Sing, { Description -> "Singlet",
               PDG -> {0},
-              Width -> 0, 
+              Width -> 0,
               Mass -> Automatic,
               ElectricCharge -> 0,
               FeynArtsNr -> 1,
@@ -105,13 +105,13 @@ $$\mathcal{L} = \mathcal{L}_{SM} - K_1 s - \frac{K_2}{2} s^2 - \frac{K_3}{6} s^3
              PDG -> {25,35},                  (* <-- two PDG numbers *)
              PDG.IX -> {101000001,101000002}  (* <-- two PDG numbers *)
            }
-     }, 
+     },
      ...
    };
 
    WeylFermionAndIndermediate = {
      {phiH, { PDG -> {0},       (* <-- name changed H -> phiH *)
-              Width -> 0, 
+              Width -> 0,
               Mass -> Automatic,
               LaTeX -> "H",
               OutputName -> "" }},
@@ -124,38 +124,43 @@ $$\mathcal{L} = \mathcal{L}_{SM} - K_1 s - \frac{K_2}{2} s^2 - \frac{K_3}{6} s^3
      ...
      {ZH, { Description -> "Scalar-Mixing-Matrix" }},
      {\[Alpha], { Description -> "Scalar mixing angle" }},
-     {vS, { Dependence -> None, 
-            DependenceNum -> None, 
-            DependenceOptional -> None, 
-            DependenceSPheno -> None, 
-            Real -> True, 
-            LesHouches -> {HMIX, 51}, 
+     {vS, { Dependence -> None,
+            DependenceNum -> None,
+            DependenceOptional -> None,
+            DependenceSPheno -> None,
+            Real -> True,
+            LesHouches -> {HMIX, 51},
             LaTeX -> "vS",
-            OutputName -> vS}},                   
+            OutputName -> vS}},
      {K1, { LaTeX -> "\\kappa_1",
             OutputName -> K1,
             LesHouches -> {HMIX,31} }},
      {K2, { LaTeX -> "\\kappa_2",
             OutputName -> K2,
             LesHouches -> {HMIX,32} }},
-     {K3, { LaTeX -> "\\kappa_3",
-            OutputName -> K3,
-            LesHouches -> {HMIX,33} }},               
-     {K4, { LaTeX -> "\\kappa_4",
-            OutputName -> K4,
-            LesHouches -> {HMIX,34} }},
-     {K5, { LaTeX -> "\\kappa_5",
-            OutputName -> K5,
-            LesHouches -> {HMIX,35} }},
-     {K6, { LaTeX -> "\\kappa_6",
-            OutputName -> K6,
-            LesHouches -> {HMIX,36} }}
+     {\[Kappa], { LaTeX -> "\\kappa",
+                  OutputName -> Kap,
+                  LesHouches -> {HMIX,35} }},               
+     {LambdaS, { LaTeX -> "\\lambda_S",
+                 OutputName -> LS,
+                 LesHouches -> {HMIX,33} }},
+     {MS, { LaTeX -> "M_S",
+            OutputName -> MuS,
+            LesHouches -> {HMIX,34} }}
    };
    ~~~
 1. Extend `Models/SESM/SESM/SESM.m`:
    ~~~.m
    ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1};
    RealScalars = {s};
+
+   LagNoHC = -(
+       + mu2 conj[H].H
+       + \[Lambda]/2 conj[H].H.conj[H].H
+       + K1/2 conj[H].H.s.s
+       + K2/2 s.s
+       + K3/24 s.s.s.s
+   );
 
    DEFINITION[EWSB][VEVs] = {
      {H0, {v, 1/Sqrt[2]}, {Ah, \[ImaginaryI]/Sqrt[2]}, {phiH, 1/Sqrt[2]}},
@@ -172,4 +177,26 @@ $$\mathcal{L} = \mathcal{L}_{SM} - K_1 s - \frac{K_2}{2} s^2 - \frac{K_3}{6} s^3
 1. Check the model:
    ~~~.m
    math -run '<< SARAH`; Start["SESM"]; CheckModel[]; Quit[]'
+   ~~~
+
+Now we turn to create a FlexibleSUSY model file:
+
+1. We start from the SM and copy the SM model file:
+   ~~~.sh
+   cd ~/hep-software/FlexibleSUSY-2.8.0
+   mkdir -p model_files/SESM
+   cp model_files/SM/FlexibleSUSY.m.in model_files/SESM/
+   cp model_files/SM/LesHouches.in.SM model_files/SESM/LesHouches.in.SESM
+   ~~~
+1. Now we edit the FlexibleSUSY model file `model_files/SESM/FlexibleSUSY.m.in`
+   ~~~.m
+   FSDefaultSARAHModel = SESM;
+   [TODO]
+   ~~~
+1. Create, configure and copile the FlexibleSUSY spectrum generator:
+   ~~~.sh
+   ./createmodel -f --name=SESM
+   ./configure --with-models=SESM --with-loop-libraries=looptools --with-looptools-incdir=$HOME/hep-software/LoopTools/build/ --with-looptools-libdir=$HOME/hep-software/LoopTools/build/
+   make -j4
+   models/SESM/run_SESM.x --slha-input-file=models/SESM/LesHouches.in.SESM_generated
    ~~~
