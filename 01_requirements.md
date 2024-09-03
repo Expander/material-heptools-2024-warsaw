@@ -60,6 +60,7 @@ There are two methods to install SARAH:
 
 * Method 1: automatic download and installation
   ~~~.sh
+  mkdir -p ~/hep-software && cd ~/hep-software
   wget https://raw.githubusercontent.com/FlexibleSUSY/FlexibleSUSY/development/install-sarah
   chmod +x install-sarah
   ./install-sarah --flavour=WolframEngine
