@@ -76,7 +76,7 @@ Let's create an extension of the SM by a new scalar singlet field that
 mixes with the Higgs boson. We'll call it "Singlet Extended Standard
 Model" (SESM). The Lagrangian should be:
 
-$$\mathcal{L} = \mathcal{L}_{SM} - \left(\frac{M_s}{2} s^2 + \frac{K_2}{2} H^\dagger H s^2 + \frac{\kappa}{3} s^3 + \frac{\lambda_s}{2} s^4\right)$$
+$$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\dagger H s^2 + \frac{M_s}{2} s^2 + \frac{\kappa}{3} s^3 + \frac{\lambda_s}{2} s^4\right)$$
 
 1. We start from the SM and copy the SM model files:
    ~~~.sh
@@ -157,9 +157,11 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(\frac{M_s}{2} s^2 + \frac{K_2}{2} H^\da
    LagNoHC = -(
        + mu2 conj[H].H
        + \[Lambda]/2 conj[H].H.conj[H].H
-       + K1/2 conj[H].H.s.s
-       + K2/2 s.s
-       + K3/24 s.s.s.s
+       + K1 conj[H].H.s
+       + K2/2 conj[H].H.s.s
+       + MS/2 s.s
+       + \[Kappa]/3 s.s.s
+       + LambdaS/2 s.s.s.s
    );
 
    DEFINITION[EWSB][VEVs] = {
