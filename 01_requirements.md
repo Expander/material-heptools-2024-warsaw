@@ -6,8 +6,6 @@ best to bring a laptop with a UNIX-based operating system, like Linux
 because all software compiles and runs smoothly on these operating
 systems.
 
-# Before the workshop
-
 ## Wolfram Mathematica / Wolfram Engine
 
 In the workshop we will need Wolfram Mathematica or Wolfram Engine.
@@ -50,7 +48,7 @@ brew install gcc boost eigen gsl
 
 ## HEP software
 
-## SARAH 4.15.2
+### SARAH 4.15.2
 
 We will make heavy use of SARAH [https://sarah.hepforge.org/]. Before
 the workshop starts, SARAH should be installed. It should be callable
@@ -78,3 +76,23 @@ There are two methods to install SARAH:
   cd ~/.WolframEngine/Kernel
   echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, ".WolframEngine", "Applications", "SARAH"}]];' >> init.m
   ~~~
+
+### SPheno
+
+We will use SPheno [https://spheno.hepforge.org/]
+
+~~~.sh
+mkdir -p ~/hep-software && cd ~/hep-software
+wget https://spheno.hepforge.org/downloads/SPheno-4.0.5.tar.gz
+tar -xf SPheno-4.0.5.tar.gz
+~~~
+
+### FlexibleSUSY 2.8.0
+
+We will use FlexibleSUSY [https://flexiblesusy.hepforge.org/]. Please
+download and extract it before the workshop starts:
+~~~.sh
+mkdir -p ~/hep-software && cd ~/hep-software
+wget https://flexiblesusy.hepforge.org/downloads/FlexibleSUSY-2.8.0.tar.gz
+tar -xf FlexibleSUSY-2.8.0.tar.gz
+~~~
