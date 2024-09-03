@@ -87,8 +87,8 @@ tar -xf FlexibleSUSY-2.8.0.tar.gz
 ### FeynArts and FormCalc
 
 For the calculation of decays with FlexibleDecay we'll need FeynArts
-and FormCalc. They can be most convenienty installed as (hit `y`
-everytime you get asked to install a package):
+and FormCalc [https://feynarts.de/]. They can be most convenienty
+installed as (hit `y` everytime you get asked to install a package):
 ~~~.sh
 mkdir -p ~/hep-software && cd ~/hep-software
 wget https://feynarts.de/FeynInstall
