@@ -51,12 +51,8 @@ brew install gcc boost eigen gsl
 ### SARAH 4.15.2
 
 We will make heavy use of SARAH [https://sarah.hepforge.org/]. Before
-the workshop starts, SARAH should be installed. It should be callable
-like this:
-~~~.sh
-math -run "<< SARAH\`"
-~~~
-There are two methods to install SARAH:
+the workshop starts, SARAH should be installed.  There are two methods
+to install SARAH:
 
 * Method 1: automatic download and installation
   ~~~.sh
@@ -77,6 +73,11 @@ There are two methods to install SARAH:
   cd ~/.WolframEngine/Kernel
   echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, ".WolframEngine", "Applications", "SARAH"}]];' >> init.m
   ~~~
+
+Test the SARAH installation:
+~~~.sh
+math -run "<< SARAH\`"
+~~~
 
 ### SPheno
 
