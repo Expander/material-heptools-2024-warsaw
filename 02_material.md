@@ -75,6 +75,7 @@ Run the spectrum generator:
 Let's create an extension of the SM by a new scalar singlet field that
 mixes with the Higgs boson. We'll call it "Singlet Extended Standard
 Model" (SESM). The Lagrangian should be:
+
 $$\mathcal{L} = \mathcal{L}_{SM} - K_1 s - \frac{K_2}{2} s^2 - \frac{K_3}{6} s^3 - \frac{K_4}{24} s^4 - K_5 H^\dagger H s - \frac{K_6}{2} H^\dagger H s^2$$
 
 1. We start from the SM and copy the SM model files:
