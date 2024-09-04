@@ -96,7 +96,34 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\da
    cp Models/SM/particles.m Models/SESM/
    cp Models/SM/SM.m Models/SESM/SESM.m
    ~~~
-1. Extend `Models/SESM/SESM/particles.m`:
+1. We modify `Models/SESM/SESM/SESM.m`:
+   ~~~.m
+   ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1};
+   RealScalars = {s};
+
+   LagNoHC = -(
+       + mu2 conj[H].H
+       + \[Lambda]/2 conj[H].H.conj[H].H
+       + K1 conj[H].H.s
+       + K2/2 conj[H].H.s.s
+       + MS/2 s.s
+       + \[Kappa]/3 s.s.s
+       + LambdaS/2 s.s.s.s
+   );
+
+   DEFINITION[EWSB][VEVs] = {
+     {H0, {v, 1/Sqrt[2]}, {Ah, \[ImaginaryI]/Sqrt[2]}, {phiH, 1/Sqrt[2]}},
+     {Sing, {vS, 1}, {0, 0}, {phiS, 1}}
+   };
+
+   DEFINITION[EWSB][MatterSector] = {
+     {{phiH, phiS}, {hh, ZH}},
+     {{{dL}, {conj[dR]}}, {{DL,Vd}, {DR,Ud}}},
+     {{{uL}, {conj[uR]}}, {{UL,Vu}, {UR,Uu}}},
+     {{{eL}, {conj[eR]}}, {{EL,Ve}, {ER,Ue}}}
+   };
+   ~~~
+1. We modify `Models/SESM/SESM/particles.m`:
    ~~~.m
    ParticleDefinitions[GaugeES] = {
      {Sing, { Description -> "Singlet",
@@ -157,33 +184,6 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\da
      {MS, { LaTeX -> "M_S",
             OutputName -> MuS,
             LesHouches -> {HMIX,34} }}
-   };
-   ~~~
-1. Extend `Models/SESM/SESM/SESM.m`:
-   ~~~.m
-   ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1};
-   RealScalars = {s};
-
-   LagNoHC = -(
-       + mu2 conj[H].H
-       + \[Lambda]/2 conj[H].H.conj[H].H
-       + K1 conj[H].H.s
-       + K2/2 conj[H].H.s.s
-       + MS/2 s.s
-       + \[Kappa]/3 s.s.s
-       + LambdaS/2 s.s.s.s
-   );
-
-   DEFINITION[EWSB][VEVs] = {
-     {H0, {v, 1/Sqrt[2]}, {Ah, \[ImaginaryI]/Sqrt[2]}, {phiH, 1/Sqrt[2]}},
-     {Sing, {vS, 1/Sqrt[2]}, {0, 0}, {phiS, 1}}
-   };
-
-   DEFINITION[EWSB][MatterSector] = {
-     {{phiH, phiS}, {hh, ZH}},
-     {{{dL}, {conj[dR]}}, {{DL,Vd}, {DR,Ud}}},
-     {{{uL}, {conj[uR]}}, {{UL,Vu}, {UR,Uu}}},
-     {{{eL}, {conj[eR]}}, {{EL,Ve}, {ER,Ue}}}
    };
    ~~~
 1. Check the model:
