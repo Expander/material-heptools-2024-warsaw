@@ -75,7 +75,7 @@ LT=$HOME/hep-software/LoopTools/build
 ./configure --with-models=SM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
 make -j4
 ~~~
-Run the spectrum generator:
+Run the spectrum generator (set `FlexibleSUSY[31] = 2`):
 ~~~.sh
 ./models/SM/run_SM.x --slha-input-file=models/SM/LesHouches.in.SM
 ~~~
