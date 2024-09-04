@@ -13,7 +13,7 @@ ParticleDefinitions[GaugeES] = {
                  Width -> 0, 
                  Mass -> Automatic,
                  ElectricCharge -> 0,
-                 FeynArtsNr -> 1,
+                 FeynArtsNr -> 3,
                  LaTeX -> "s",
                  OutputName -> "s" }},                         
       

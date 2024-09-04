@@ -98,17 +98,34 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\da
    ~~~
 1. We modify `Models/SESM/SESM/SESM.m`:
    ~~~.m
-   ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1};
+   Global[[1]] = {Z[2], Z2};
+
+   (* Gauge Groups *)
+   
+   Gauge[[1]]={B,   U[1], hypercharge, g1, False, 1};
+   Gauge[[2]]={WB, SU[2], left,        g2, True , 1};
+   Gauge[[3]]={G,  SU[3], color,       g3, False, 1};
+   
+   
+   (* Matter Fields *)
+   
+   FermionFields[[1]] = {q, 3, {uL, dL},     1/6, 2,  3, 1};  
+   FermionFields[[2]] = {l, 3, {vL, eL},    -1/2, 2,  1, 1};
+   FermionFields[[3]] = {d, 3, conj[dR],     1/3, 1, -3, 1};
+   FermionFields[[4]] = {u, 3, conj[uR],    -2/3, 1, -3, 1};
+   FermionFields[[5]] = {e, 3, conj[eR],       1, 1,  1, 1};
+   
+   ScalarFields[[1]] =  {H, 1, {Hp, H0},     1/2, 2,  1, 1};
+   ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1, -1};
+   
    RealScalars = {s};
 
    LagNoHC = -(
        + mu2 conj[H].H
        + \[Lambda]/2 conj[H].H.conj[H].H
-       + K1 conj[H].H.s
-       + K2/2 conj[H].H.s.s
-       + MS/2 s.s
-       + \[Kappa]/3 s.s.s
-       + LambdaS/2 s.s.s.s
+       + LamSH/2 conj[H].H.s.s
+       + MS2/2 s.s
+       + LamS/2 s.s.s.s
    );
 
    DEFINITION[EWSB][VEVs] = {
@@ -131,7 +148,7 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\da
               Width -> 0,
               Mass -> Automatic,
               ElectricCharge -> 0,
-              FeynArtsNr -> 1,
+              FeynArtsNr -> 3,
               LaTeX -> "s",
               OutputName -> "s" }},
      ...
@@ -169,21 +186,15 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\da
             LesHouches -> {HMIX, 51},
             LaTeX -> "vS",
             OutputName -> vS}},
-     {K1, { LaTeX -> "\\kappa_1",
-            OutputName -> K1,
-            LesHouches -> {HMIX,31} }},
-     {K2, { LaTeX -> "\\kappa_2",
-            OutputName -> K2,
-            LesHouches -> {HMIX,32} }},
-     {\[Kappa], { LaTeX -> "\\kappa",
-                  OutputName -> Kap,
-                  LesHouches -> {HMIX,35} }},               
-     {LambdaS, { LaTeX -> "\\lambda_S",
-                 OutputName -> LS,
+     {LamSH, { LaTeX -> "\\kappa_1",
+                  OutputName -> LamSH,
+                  LesHouches -> {HMIX,31} }},
+     {LamS, { LaTeX -> "\\lambda_S",
+                 OutputName -> LamS,
                  LesHouches -> {HMIX,33} }},
-     {MS, { LaTeX -> "M_S",
-            OutputName -> MuS,
-            LesHouches -> {HMIX,34} }}
+     {MS2, { LaTeX -> "M_S^2",
+             OutputName -> MS2,
+             LesHouches -> {HMIX,34} }},
    };
    ~~~
 1. Check the model:
@@ -214,11 +225,22 @@ Now we turn to create a FlexibleSUSY model file:
    models/SESM/run_SESM.x --slha-input-file=models/SESM/LesHouches.in.SESM_generated
    ~~~
 
+Create and copile a SPheno spectrum generator:
+~~~.sh
+math -run '<< SARAH`; Start["SESM"]; MakeSPheno[]; Quit[]'
+mv Output/SESM/EWSB/SPheno ~/hep-software/SPheno-4.0.5/SESM
+~~~
+~~~.sh
+cd ~/hep-software/SPheno-4.0.5
+make F90=gfortran
+make F90=gfortran Model=SESM
+~~~
+
 We can continue to pass the SLHA output to micrOMEGAs. For this, we
 need to first generate appropriate CalcHep model files with SARAH:
 ~~~.sh
 cd ~/hep-software/SARAH
-math -run '<< SARAH`; Start["SESM"]; MakeCHep[]; Quit[]'
+math -run '<< SARAH`; Start["SESM"]; MakeCHep[DMcandidate1 -> Z2 == -1]; Quit[]'
 ~~~
 Now we switch over to micromegas and copy our just generated SARAH model files over:
 ~~~.sh

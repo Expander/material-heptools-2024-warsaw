@@ -1,0 +1,229 @@
+Block SPINFO
+     1   FlexibleSUSY
+     2   2.8.0
+     5   SESM
+     9   4.15.2
+Block MODSEL                 # Select model
+#   12    1000                # parameter output scale (GeV)
+Block FlexibleSUSY
+    0   1.000000000e-04      # precision goal
+    1   0                    # max. iterations (0 = automatic)
+    2   0                    # algorithm (0 = all, 1 = two_scale, 2 = semi_analytic)
+    3   1                    # calculate SM pole masses
+    4   4                    # pole mass loop order
+    5   4                    # EWSB loop order
+    6   4                    # beta-functions loop order
+    7   4                    # threshold corrections loop order
+    8   1                    # Higgs 2-loop corrections O(alpha_t alpha_s)
+    9   1                    # Higgs 2-loop corrections O(alpha_b alpha_s)
+   10   1                    # Higgs 2-loop corrections O((alpha_t + alpha_b)^2)
+   11   1                    # Higgs 2-loop corrections O(alpha_tau^2)
+   12   0                    # force output
+   13   3                    # Top pole mass QCD corrections (0 = 1L, 1 = 2L, 2 = 3L)
+   14   1.000000000e-11      # beta-function zero threshold
+   15   0                    # calculate all observables
+   16   0                    # force positive majorana masses
+   17   0                    # pole mass renormalization scale (0 = SUSY scale)
+   18   0                    # pole mass renormalization scale in the EFT (0 = min(SUSY scale, Mt))
+   19   0                    # EFT matching scale (0 = SUSY scale)
+   20   2                    # EFT loop order for upwards matching
+   21   1                    # EFT loop order for downwards matching
+   22   0                    # EFT index of SM-like Higgs in the BSM model
+   23   1                    # calculate BSM pole masses
+   24   124111421            # individual threshold correction loop orders
+   25   0                    # ren. scheme for Higgs 3L corrections (0 = DR, 1 = MDR)
+   26   1                    # Higgs 3-loop corrections O(alpha_t alpha_s^2)
+   27   1                    # Higgs 3-loop corrections O(alpha_b alpha_s^2)
+   28   1                    # Higgs 3-loop corrections O(alpha_t^2 alpha_s)
+   29   1                    # Higgs 3-loop corrections O(alpha_t^3)
+   30   1                    # Higgs 4-loop corrections O(alpha_t alpha_s^3)
+   31   2                    # loop library (0 = softsusy)
+   32   2                    # loop level to calculate AMM
+Block FlexibleSUSYInput
+    0   0.00729735           # alpha_em(0)
+    1   125.09               # Mh pole
+Block SMINPUTS               # Standard Model inputs
+    1   1.279340000e+02      # alpha^(-1) SM MSbar(MZ)
+    2   1.166378700e-05      # G_Fermi
+    3   1.184000000e-01      # alpha_s(MZ) SM MSbar
+    4   9.118760000e+01      # MZ(pole)
+    5   4.200000000e+00      # mb(mb) SM MSbar
+    6   1.733400000e+02      # mtop(pole)
+    7   1.777000000e+00      # mtau(pole)
+    8   0.000000000e+00      # mnu3(pole)
+   11   5.109989020e-04      # melectron(pole)
+   12   0.000000000e+00      # mnu1(pole)
+   13   1.056583570e-01      # mmuon(pole)
+   14   0.000000000e+00      # mnu2(pole)
+   21   4.750000000e-03      # md(2 GeV) MS-bar
+   22   2.400000000e-03      # mu(2 GeV) MS-bar
+   23   1.040000000e-01      # ms(2 GeV) MS-bar
+   24   1.270000000e+00      # mc(mc) MS-bar
+Block MINPAR                 # Input parameters
+    1   0.192                # Lambda(Qin)
+Block FlexibleDecay
+   0   1                    # calculate decays (0 = no, 1 = yes)
+   1   1e-5                 # minimum BR to print
+   2   4                    # include higher order corrections in decays (0 = LO, 1 = NLO, 2 = NNLO, 3 = N^3LO, 4 = N^4LO )
+   3   1                    # use Thomson alpha(0) instead of alpha(m) in decays to γγ and γZ
+   4   2                    # off-shell decays into VV pair
+Block EXTPAR
+     0     1.00000000E+03   # Qin
+     1     1.73340000E+02   # QEWSB
+     2     2.00000000E-01   # LambdaIN
+     3     1.00000000E-01   # LamSIN
+     4     1.00000000E-01   # LamSHIN
+     5     1.00000000E+06   # MS2IN
+     6     1.00000000E+01   # vSIN
+Block gauge Q= 1.73340000E+02
+     1     3.58529523E-01   # g1 * 0.7745966692414834
+     2     6.47730500E-01   # g2
+     3     1.16543629E+00   # g3
+Block Yu Q= 1.73340000E+02
+  1  1     7.49494515E-06   # Yu(1,1)
+  1  2     0.00000000E+00   # Yu(1,2)
+  1  3     0.00000000E+00   # Yu(1,3)
+  2  1     0.00000000E+00   # Yu(2,1)
+  2  2     3.41173591E-03   # Yu(2,2)
+  2  3     0.00000000E+00   # Yu(2,3)
+  3  1     0.00000000E+00   # Yu(3,1)
+  3  2     0.00000000E+00   # Yu(3,2)
+  3  3     9.35214232E-01   # Yu(3,3)
+Block Yd Q= 1.73340000E+02
+  1  1     1.49108121E-05   # Yd(1,1)
+  1  2     0.00000000E+00   # Yd(1,2)
+  1  3     0.00000000E+00   # Yd(1,3)
+  2  1     0.00000000E+00   # Yd(2,1)
+  2  2     3.26468281E-04   # Yd(2,2)
+  2  3     0.00000000E+00   # Yd(2,3)
+  3  1     0.00000000E+00   # Yd(3,1)
+  3  2     0.00000000E+00   # Yd(3,2)
+  3  3     1.55602778E-02   # Yd(3,3)
+Block Ye Q= 1.73340000E+02
+  1  1     2.87982908E-06   # Ye(1,1)
+  1  2     0.00000000E+00   # Ye(1,2)
+  1  3     0.00000000E+00   # Ye(1,3)
+  2  1     0.00000000E+00   # Ye(2,1)
+  2  2     5.95457259E-04   # Ye(2,2)
+  2  3     0.00000000E+00   # Ye(2,3)
+  3  1     0.00000000E+00   # Ye(3,1)
+  3  2     0.00000000E+00   # Ye(3,2)
+  3  3     1.00145956E-02   # Ye(3,3)
+Block SM Q= 1.73340000E+02
+     1    -8.72933720E+03   # mu2
+     2     2.58757178E-01   # Lambdax
+Block HMIX Q= 1.73340000E+02
+     3     2.47446187E+02   # v
+    51     1.00000000E+01   # vS
+    31     9.37339972E-02   # LamSH
+    33     9.61127277E-02   # LamS
+    34    -2.85924692E+03   # MS2
+Block MASS
+        24     8.03433431E+01   # VWp
+        25     5.70665097E+00   # hh(1)
+        35     1.26576716E+02   # hh(2)
+        21     0.00000000E+00   # VG
+        12     0.00000000E+00   # Fv(1)
+        14     0.00000000E+00   # Fv(2)
+        16     0.00000000E+00   # Fv(3)
+         1     4.73022812E-03   # Fd(1)
+         3     9.13632030E-02   # Fd(2)
+         5     3.63508739E+00   # Fd(3)
+         2     2.45986478E-03   # Fu(1)
+         4     8.62255442E-01   # Fu(2)
+         6     1.73309330E+02   # Fu(3)
+        11     5.27950480E-04   # Fe(1)
+        13     1.07086649E-01   # Fe(2)
+        15     1.78253124E+00   # Fe(3)
+        22     0.00000000E+00   # VP
+        23     9.12582820E+01   # VZ
+Block SCALARMIX
+  1  1    -1.42441786E-02   # ZH(1,1)
+  1  2     9.99898547E-01   # ZH(1,2)
+  2  1     9.99898547E-01   # ZH(2,1)
+  2  2     1.42441786E-02   # ZH(2,2)
+Block UULMIX
+  1  1     1.00000000E+00   # Re(Vu(1,1))
+  1  2     0.00000000E+00   # Re(Vu(1,2))
+  1  3     0.00000000E+00   # Re(Vu(1,3))
+  2  1     0.00000000E+00   # Re(Vu(2,1))
+  2  2     1.00000000E+00   # Re(Vu(2,2))
+  2  3     0.00000000E+00   # Re(Vu(2,3))
+  3  1     0.00000000E+00   # Re(Vu(3,1))
+  3  2     0.00000000E+00   # Re(Vu(3,2))
+  3  3     1.00000000E+00   # Re(Vu(3,3))
+Block UDLMIX
+  1  1     1.00000000E+00   # Re(Vd(1,1))
+  1  2     0.00000000E+00   # Re(Vd(1,2))
+  1  3     0.00000000E+00   # Re(Vd(1,3))
+  2  1     0.00000000E+00   # Re(Vd(2,1))
+  2  2     1.00000000E+00   # Re(Vd(2,2))
+  2  3     0.00000000E+00   # Re(Vd(2,3))
+  3  1     0.00000000E+00   # Re(Vd(3,1))
+  3  2     0.00000000E+00   # Re(Vd(3,2))
+  3  3     1.00000000E+00   # Re(Vd(3,3))
+Block UURMIX
+  1  1     1.00000000E+00   # Re(Uu(1,1))
+  1  2     0.00000000E+00   # Re(Uu(1,2))
+  1  3     0.00000000E+00   # Re(Uu(1,3))
+  2  1     0.00000000E+00   # Re(Uu(2,1))
+  2  2     1.00000000E+00   # Re(Uu(2,2))
+  2  3     0.00000000E+00   # Re(Uu(2,3))
+  3  1     0.00000000E+00   # Re(Uu(3,1))
+  3  2     0.00000000E+00   # Re(Uu(3,2))
+  3  3     1.00000000E+00   # Re(Uu(3,3))
+Block UDRMIX
+  1  1     1.00000000E+00   # Re(Ud(1,1))
+  1  2     0.00000000E+00   # Re(Ud(1,2))
+  1  3     0.00000000E+00   # Re(Ud(1,3))
+  2  1     0.00000000E+00   # Re(Ud(2,1))
+  2  2     1.00000000E+00   # Re(Ud(2,2))
+  2  3     0.00000000E+00   # Re(Ud(2,3))
+  3  1     0.00000000E+00   # Re(Ud(3,1))
+  3  2     0.00000000E+00   # Re(Ud(3,2))
+  3  3     1.00000000E+00   # Re(Ud(3,3))
+Block UELMIX
+  1  1     1.00000000E+00   # Re(Ve(1,1))
+  1  2     0.00000000E+00   # Re(Ve(1,2))
+  1  3     0.00000000E+00   # Re(Ve(1,3))
+  2  1     0.00000000E+00   # Re(Ve(2,1))
+  2  2     1.00000000E+00   # Re(Ve(2,2))
+  2  3     0.00000000E+00   # Re(Ve(2,3))
+  3  1     0.00000000E+00   # Re(Ve(3,1))
+  3  2     0.00000000E+00   # Re(Ve(3,2))
+  3  3     1.00000000E+00   # Re(Ve(3,3))
+Block UERMIX
+  1  1     1.00000000E+00   # Re(Ue(1,1))
+  1  2     0.00000000E+00   # Re(Ue(1,2))
+  1  3     0.00000000E+00   # Re(Ue(1,3))
+  2  1     0.00000000E+00   # Re(Ue(2,1))
+  2  2     1.00000000E+00   # Re(Ue(2,2))
+  2  3     0.00000000E+00   # Re(Ue(2,3))
+  3  1     0.00000000E+00   # Re(Ue(3,1))
+  3  2     0.00000000E+00   # Re(Ue(3,2))
+  3  3     1.00000000E+00   # Re(Ue(3,3))
+Block DCINFO
+     1   FlexibleSUSY
+     2   2.8.0
+     5   SESM
+     9   4.15.2
+DECAY        25     3.64461592E-09   # hh(1) decays
+     6.60447201E-01   2          -4         4  # BR(hh(1) -> barFu(2) Fu(2))
+     3.15841413E-01   2         -15        15  # BR(hh(1) -> barFe(3) Fe(3))
+     1.44028565E-02   2          21        21  # BR(hh(1) -> VG VG)
+     6.92645658E-03   2          -3         3  # BR(hh(1) -> barFd(2) Fd(2))
+     2.34037591E-03   2         -13        13  # BR(hh(1) -> barFe(2) Fe(2))
+     2.25855456E-05   2          22        22  # BR(hh(1) -> VP VP)
+     1.51416086E-05   2          -1         1  # BR(hh(1) -> barFd(1) Fd(1))
+DECAY        35     4.60780797E-02   # hh(2) decays
+     9.07356799E-01   2          25        25  # BR(hh(2) -> hh(1) hh(1))
+     5.18999559E-02   2          -5         5  # BR(hh(2) -> barFd(3) Fd(3))
+     2.16643396E-02   2         -24        24  # BR(hh(2) -> conjVWp VWp)
+     7.84990581E-03   2          21        21  # BR(hh(2) -> VG VG)
+     5.50058157E-03   2         -15        15  # BR(hh(2) -> barFe(3) Fe(3))
+     2.81925210E-03   2          23        23  # BR(hh(2) -> VZ VZ)
+     2.51056050E-03   2          -4         4  # BR(hh(2) -> barFu(2) Fu(2))
+     2.08656514E-04   2          22        22  # BR(hh(2) -> VP VP)
+     1.47181513E-04   2          22        23  # BR(hh(2) -> VP VZ)
+     2.32351813E-05   2          -3         3  # BR(hh(2) -> barFd(2) Fd(2))
+     1.94696587E-05   2         -13        13  # BR(hh(2) -> barFe(2) Fe(2))
