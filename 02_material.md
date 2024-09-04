@@ -4,7 +4,6 @@
 
 ~~~.sh
 cd ~/hep-software/SARAH
-math
 ~~~
 Start Mathematica:
 ~~~.sh
@@ -24,6 +23,16 @@ Inspect some model details:
 SARAHparameters  (* model parameters *)
 Particles[EWSB]  (* fields *)
 MassMatrix[Fe]   (* mass matrix of lepton fields Fe *)
+~~~
+Calculate vertices, beta functions and self-energies:
+~~~.m
+MakeAll[]
+Quit[]
+~~~
+~~~.sh
+less Output/SM/EWSB/Vertices/VertexListFFV.m
+less Output/SM/RGEs/BetaGauge.m
+less less Output/SM/EWSB/One-Loop/SelfEnergy.m
 ~~~
 
 ## Create SPheno spectrum generator
@@ -61,8 +70,9 @@ cd ~/hep-software/FlexibleSUSY-2.8.0
 ~~~
 Create the Standard Model (`SM`) spectrum genrator, configure it and compile it:
 ~~~.sh
+LT=$HOME/hep-software/LoopTools/build
 ./createmodel -f --name=SM
-./configure --with-models=SM --with-loop-libraries=looptools --with-looptools-incdir=$HOME/hep-software/LoopTools/x86_64-Linux/include/ --with-looptools-libdir=$HOME/hep-software/LoopTools/x86_64-Linux/lib64/
+./configure --with-models=SM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
 make -j4
 ~~~
 Run the spectrum generator:
@@ -197,8 +207,9 @@ Now we turn to create a FlexibleSUSY model file:
    ~~~
 1. Create, configure and copile the FlexibleSUSY spectrum generator:
    ~~~.sh
+   LT=$HOME/hep-software/LoopTools/build
    ./createmodel -f --name=SESM
-   ./configure --with-models=SESM --with-loop-libraries=looptools --with-looptools-incdir=$HOME/hep-software/LoopTools/build/ --with-looptools-libdir=$HOME/hep-software/LoopTools/build/
+   ./configure --with-models=SESM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
    make -j4
    models/SESM/run_SESM.x --slha-input-file=models/SESM/LesHouches.in.SESM_generated
    ~~~
