@@ -2,10 +2,9 @@ OnlyLowEnergySPheno = True;
 
 MINPAR = {
     {1, LambdaIN},
-    {2, LamSIN},
-    {3, LamSHIN},
-    {4, MS2IN},
-    {5, vSIN}
+    {2, LambdaSIN},
+    {3, LambdaSHIN},
+    {4, vevSIN}
 };
 
 
@@ -13,9 +12,9 @@ ParametersToSolveTadpoles = {mu2, MS2};
 
 BoundaryLowScaleInput = {
     {\[Lambda], LambdaIN},
-    {LamS, LamSIN},
-    {LamSH, LamSHIN},
-    {vS, vSIN}
+    {LambdaS, LambdaSIN},
+    {LambdaSH, LambdaSHIN},
+    {vS, vevSIN}
 };
 
 DEFINITION[MatchingConditions]= 

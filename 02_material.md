@@ -86,7 +86,7 @@ Let's create an extension of the SM by a new scalar singlet field that
 mixes with the Higgs boson. We'll call it "Singlet Extended Standard
 Model" (SESM). The Lagrangian should be:
 
-$$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\dagger H s^2 + \frac{M_s}{2} s^2 + \frac{\kappa}{3} s^3 + \frac{\lambda_s}{2} s^4\right)$$
+$$\mathcal{L} = \mathcal{L}_{SM} - \left[\frac{\lambda_{SH}}{2} H^\dagger H s^2 + \frac{M_s^2}{2} s^2 + \frac{\lambda_s}{2} s^4\right]$$
 
 1. We start from the SM and copy the SM model files:
    ~~~.sh
@@ -187,14 +187,17 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left(K_1 H^\dagger H s + \frac{K_2}{2} H^\da
             LaTeX -> "vS",
             OutputName -> vS}},
      {LamSH, { LaTeX -> "\\kappa_1",
-                  OutputName -> LamSH,
-                  LesHouches -> {HMIX,31} }},
+               Real -> True, 
+               OutputName -> LamSH,
+               LesHouches -> {HMIX,31} }},
      {LamS, { LaTeX -> "\\lambda_S",
-                 OutputName -> LamS,
-                 LesHouches -> {HMIX,33} }},
+              Real -> True, 
+              OutputName -> LamS,
+              LesHouches -> {HMIX,33} }},
      {MS2, { LaTeX -> "M_S^2",
+             Real -> True, 
              OutputName -> MS2,
-             LesHouches -> {HMIX,34} }},
+             LesHouches -> {HMIX,34} }}
    };
    ~~~
 1. Check the model:
@@ -225,17 +228,6 @@ Now we turn to create a FlexibleSUSY model file:
    models/SESM/run_SESM.x --slha-input-file=models/SESM/LesHouches.in.SESM_generated
    ~~~
 
-Create and copile a SPheno spectrum generator:
-~~~.sh
-math -run '<< SARAH`; Start["SESM"]; MakeSPheno[]; Quit[]'
-mv Output/SESM/EWSB/SPheno ~/hep-software/SPheno-4.0.5/SESM
-~~~
-~~~.sh
-cd ~/hep-software/SPheno-4.0.5
-make F90=gfortran
-make F90=gfortran Model=SESM
-~~~
-
 We can continue to pass the SLHA output to micrOMEGAs. For this, we
 need to first generate appropriate CalcHep model files with SARAH:
 ~~~.sh
@@ -258,4 +250,15 @@ Now we build the CalcHep model file and run the point
 ~~~.sh
 make main=main.cpp
 ./main data.par
+~~~
+
+Create and copile a SPheno spectrum generator:
+~~~.sh
+math -run '<< SARAH`; Start["SESM"]; MakeSPheno[]; Quit[]'
+mv Output/SESM/EWSB/SPheno ~/hep-software/SPheno-4.0.5/SESM
+~~~
+~~~.sh
+cd ~/hep-software/SPheno-4.0.5
+make F90=gfortran
+make F90=gfortran Model=SESM
 ~~~
