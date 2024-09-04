@@ -232,7 +232,7 @@ We can continue to pass the SLHA output to micrOMEGAs. For this, we
 need to first generate appropriate CalcHep model files with SARAH:
 ~~~.sh
 cd ~/hep-software/SARAH
-math -run '<< SARAH`; Start["SESM"]; MakeCHep[DMcandidate1 -> Z2 == -1]; Quit[]'
+math -run '<< SARAH`; Start["SESM"]; MakeCHep[DMcandidate1 -> Z2 == -1, IncludeEffectiveHiggsVertices -> False]; Quit[]'
 ~~~
 Now we switch over to micromegas and copy our just generated SARAH model files over:
 ~~~.sh
