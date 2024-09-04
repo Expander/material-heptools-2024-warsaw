@@ -202,3 +202,27 @@ Now we turn to create a FlexibleSUSY model file:
    make -j4
    models/SESM/run_SESM.x --slha-input-file=models/SESM/LesHouches.in.SESM_generated
    ~~~
+
+We can continue to pass the SLHA output to micrOMEGAs. For this, we
+need to first generate appropriate CalcHep model files with SARAH:
+~~~.sh
+cd ~/hep-software/SARAH
+math -run '<< SARAH`; Start["SESM"]; MakeCHep[]; Quit[]'
+~~~
+Now we switch over to micromegas and copy our just generated SARAH model files over:
+~~~.sh
+cd ~/hep-software/micromegas_6.1.15
+./newProject SESM
+cd SESM
+cp ~/hep-software/SARAH/Output/SESM/EWSB/CHep/* work/models/
+~~~
+We need to make some minor adaptations to the model files:
+~~~.sh
+model_files=`find . -name '*.mdl'`
+sed -i~ 's/_dp/   /g' $model_files
+~~~
+Now we build the CalcHep model file and run the point
+~~~.sh
+make main=main.cpp
+./main data.par
+~~~

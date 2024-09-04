@@ -39,7 +39,7 @@ Please install all of these.
 
 Installation on Ubuntu:
 ~~~.sh
-sudo apt install gcc g++ gfortran libboost-dev libeigen3-dev libgsl-dev dpkg-dev
+sudo apt install gcc g++ gfortran libboost-dev libeigen3-dev libgsl-dev dpkg-dev libx11-dev
 ~~~
 Installation on MacOS:
 ~~~.sh
@@ -106,5 +106,16 @@ Finally, we have to re-compile LoopTools with `-fPIC`:
 cd ~/hep-software/LoopTools
 make clean
 FFLAGS="-O3 -fPIC" ./configure
+make
+~~~
+
+### micrOMEGAs
+
+We will make use of micrOMEGAs [https://lapth.cnrs.fr/micromegas/].
+Please download and compile it as follows:
+~~~.sh
+wget https://zenodo.org/records/13376690/files/micromegas_6.1.15.tgz
+tar -xzf micromegas_6.1.15.tgz
+cd micromegas_6.1.15
 make
 ~~~
