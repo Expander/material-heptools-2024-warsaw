@@ -29,6 +29,7 @@ Calculate vertices, beta functions and self-energies:
 MakeAll[]
 Quit[]
 ~~~
+Inspect some output:
 ~~~.sh
 less Output/SM/EWSB/Vertices/VertexListFFV.m
 less Output/SM/RGEs/BetaGauge.m
@@ -44,13 +45,11 @@ Create the Standard Model (`SM`) spectrum genrator, configure it and compile it:
 ~~~.sh
 math -run '<< SARAH`; Start["SM"]; MakeSPheno[]; Quit[]'
 ~~~
-Move the generated files to the SPheno directory:
-~~~.sh
-mv Output/SM/EWSB/SPheno ~/hep-software/SPheno-4.0.5/SM
-~~~
-Compile the SPheno spectrum generator:
+Move the generated files to the SPheno directory and
+compile the SPheno spectrum generator:
 ~~~.sh
 cd ~/hep-software/SPheno-4.0.5
+mv ~/hep-software/SARAH/Output/SM/EWSB/SPheno SM
 make F90=gfortran
 make F90=gfortran Model=SM
 ~~~
@@ -65,6 +64,7 @@ less SPheno.spc.SM
 
 ## Create a FlexibleSUSY spectrum generator
 
+Go to the FlexibleSUSY directory:
 ~~~.sh
 cd ~/hep-software/FlexibleSUSY-2.8.0
 ~~~
@@ -80,17 +80,17 @@ Run the spectrum generator (set `FlexibleSUSY[31] = 2`):
 ./models/SM/run_SM.x --slha-input-file=models/SM/LesHouches.in.SM
 ~~~
 
-# Standard Model + scalar singlet (SESM)
+# Standard Model + real scalar gauge singlet (SESM)
 
-Let's create an extension of the SM by a new scalar singlet field that
-mixes with the Higgs boson. We'll call it "Singlet Extended Standard
-Model" (SESM). The Lagrangian should be:
+Let's create an extension of the SM by a new real scalar gauge singlet
+field that mixes with the Higgs boson. We'll call it "Singlet Extended
+Standard Model" (SESM). The Lagrangian should be:
 
 $$\mathcal{L} = \mathcal{L}_{SM} - \left[\kappa_{SH} H^\dagger H s + \frac{\lambda_{SH}}{2} H^\dagger H s^2 + \frac{M_S^2}{2} s^2 + \frac{\kappa_S}{3} s^3 + \frac{\lambda_S}{2} s^4\right]$$
 
 ## Create SARAH model
 
-1. We start from the SM and copy the SM model files:
+1. We start from the SM and copy the SM model files to a new `SESM` directory:
    ~~~.sh
    cd ~/hep-software/SARAH
    mkdir -p Models/SESM
@@ -198,22 +198,20 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left[\kappa_{SH} H^\dagger H s + \frac{\lamb
    math -run '<< SARAH`; Start["SESM"]; CheckModel[]; Quit[]'
    ~~~
 
-## Create FlexibleSUSY model
+## Create a FlexibleSUSY spectrum generator
 
-Now we turn to create a FlexibleSUSY model file:
+Now we will create a FlexibleSUSY model file:
 
-1. We start from the SM and copy the SM model file:
+1. We start from the SM and copy the SM model file to a new `SESM` directory:
    ~~~.sh
    cd ~/hep-software/FlexibleSUSY-2.8.0
    mkdir -p model_files/SESM
    cp model_files/SM/FlexibleSUSY.m.in model_files/SESM/
    cp model_files/SM/LesHouches.in.SM model_files/SESM/LesHouches.in.SESM
    ~~~
-1. Now we edit the FlexibleSUSY model file `model_files/SESM/FlexibleSUSY.m.in`
+1. Now we edit the FlexibleSUSY model file `model_files/SESM/FlexibleSUSY.m.in` to define new input parameters and fix the new model parameters:
    ~~~.m
    FSDefaultSARAHModel = SESM;
-
-   (* SESM input parameters *)
 
    MINPAR = {};
 
@@ -242,7 +240,17 @@ Now we turn to create a FlexibleSUSY model file:
        {vS, vSIN}
    };
 
-   };
+   (* Remove these: *)
+   (* UseSM3LoopRGEs = True; *)
+   (* UseSM4LoopRGEs = True; *)
+   (* UseSM5LoopRGEs = True; *)
+   (* UseHiggs2LoopSM = True; *)
+   (* UseHiggs3LoopSM = True; *)
+   (* UseHiggs4LoopSM = True; *)
+   (* UseYukawa3LoopQCD = True; *)
+   (* UseYukawa4LoopQCD = True; *)
+   (* UseSMAlphaS3Loop = True; *)
+   (* UseSMAlphaS4Loop = True; *)
    ~~~
 1. Create, configure and compile the FlexibleSUSY spectrum generator:
    ~~~.sh
@@ -251,7 +259,7 @@ Now we turn to create a FlexibleSUSY model file:
    ./configure --with-models=SESM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
    make -j4
    ~~~
-1. Modify the SESM SLHA input file `model_files/SESM/LesHouches.in.SESM`:
+1. Modify the SESM SLHA input file `model_files/SESM/LesHouches.in.SESM` to set the input parameters to reasonable values:
    ~~~.sh
    Block EXTPAR                 # Input parameters
        0   1000                 # input scale Qin
@@ -268,16 +276,16 @@ Now we turn to create a FlexibleSUSY model file:
    models/SESM/run_SESM.x --slha-input-file=model_files/SESM/LesHouches.in.SESM
    ~~~
 
-## Create SPheno model
+## Create a SPheno spectrum generator
 
 Now we turn to create a SPheno model file:
 
-1. Copy the model file `SPheno.m` from the SM:
+1. Go to the SPheno directory and copy the model file `SPheno.m` from the SM to the SESM:
    ~~~.sh
    cd ~/hep-software/SARAH
    cp Models/SM/SPheno.m Models/SESM/
    ~~~
-1. Modify the `SPheno.m` model file to set the new parameters:
+1. Modify the `SPheno.m` model file to define new input parameters and fix the new model parameters:
    ~~~.sh
    MINPAR = {
        {2, LambdaIN},
@@ -332,6 +340,10 @@ Now we turn to create a SPheno model file:
 1. Run the SPheno spectrum generator:
    ~~~.sh
    ./bin/SPhenoSSM SESM/Input_Files/LesHouches.in.SESM
+   ~~~
+   and inspect the output
+   ~~~.sh
+   less SPheno.spc.SESM
    ~~~
 
 # Standard Model + two scalar singlets (TSESM)
