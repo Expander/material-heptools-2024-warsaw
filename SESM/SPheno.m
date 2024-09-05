@@ -1,10 +1,12 @@
 OnlyLowEnergySPheno = True;
 
 MINPAR = {
-    {1, LambdaIN},
-    {2, LambdaSIN},
-    {3, LambdaSHIN},
-    {4, vevSIN}
+    {2, LambdaIN},
+    {3, LambdaSIN},
+    {4, LambdaSHIN},
+    {5, KappaSIN},
+    {6, KappaSHIN},
+    {7, vevSIN}
 };
 
 
@@ -14,6 +16,8 @@ BoundaryLowScaleInput = {
     {\[Lambda], LambdaIN},
     {LambdaS, LambdaSIN},
     {LambdaSH, LambdaSHIN},
+    {KapS, KappaSIN},
+    {KapSH, KappaSHIN},
     {vS, vevSIN}
 };
 
@@ -30,7 +34,14 @@ DEFINITION[MatchingConditions]=
 ListDecayParticles = {Fu,Fe,Fd,hh};
 ListDecayParticles3B = {{Fu,"Fu.f90"},{Fe,"Fe.f90"},{Fd,"Fd.f90"}};
 
-DefaultInputValues ={LambdaIN -> 0.27};
+DefaultInputValues = {
+    LambdaIN -> 0.21,
+    LambdaSIN -> 0.1,
+    LambdaSHIN -> 0.1,
+    KappaSIN -> 100,
+    KappaSHIN -> -100,
+    KappaSHIN -> 3
+};
 
 AddTreeLevelUnitarityLimits=True;
 

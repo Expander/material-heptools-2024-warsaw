@@ -12,8 +12,9 @@ EXTPAR = {
     {2, LambdaIN},
     {3, LamSIN},
     {4, LamSHIN},
-    {5, MS2IN},
-    {6, vSIN}
+    {5, KapSIN},
+    {6, KapSHIN},
+    {7, vSIN}
 };
 
 EWSBOutputParameters = { mu2, MS2 };
@@ -25,7 +26,9 @@ HighScaleFirstGuess = Qin;
 HighScaleInput = {
     {\[Lambda], LambdaIN},
     {LamS, LamSIN},
-    {LamSH, LamSHIN}
+    {LamSH, LamSHIN},
+    {KapS, KapSIN},
+    {KapSH, KapSHIN}
 };
 
 SUSYScale = QEWSB;

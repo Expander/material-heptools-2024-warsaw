@@ -11,29 +11,27 @@ Model`Date = "2014-11-06";
 (* 2014-11-06: Changed sign in Lagrangian to fit standard conventions *)
 (* 2016-05-03: Changed sign of Yu *)
 
-Global[[1]] = {Z[2], Z2};
-
 (*-------------------------------------------*)
 (*   Particle Content*)
 (*-------------------------------------------*)
 
 (* Gauge Groups *)
 
-Gauge[[1]]={B,   U[1], hypercharge, g1, False, 1};
-Gauge[[2]]={WB, SU[2], left,        g2, True , 1};
-Gauge[[3]]={G,  SU[3], color,       g3, False, 1};
+Gauge[[1]]={B,   U[1], hypercharge, g1, False};
+Gauge[[2]]={WB, SU[2], left,        g2, True};
+Gauge[[3]]={G,  SU[3], color,       g3, False};
 
 
 (* Matter Fields *)
 
-FermionFields[[1]] = {q, 3, {uL, dL},     1/6, 2,  3, 1};  
-FermionFields[[2]] = {l, 3, {vL, eL},    -1/2, 2,  1, 1};
-FermionFields[[3]] = {d, 3, conj[dR],     1/3, 1, -3, 1};
-FermionFields[[4]] = {u, 3, conj[uR],    -2/3, 1, -3, 1};
-FermionFields[[5]] = {e, 3, conj[eR],       1, 1,  1, 1};
+FermionFields[[1]] = {q, 3, {uL, dL},     1/6, 2,  3};  
+FermionFields[[2]] = {l, 3, {vL, eL},    -1/2, 2,  1};
+FermionFields[[3]] = {d, 3, conj[dR],     1/3, 1, -3};
+FermionFields[[4]] = {u, 3, conj[uR],    -2/3, 1, -3};
+FermionFields[[5]] = {e, 3, conj[eR],       1, 1,  1};
 
-ScalarFields[[1]] =  {H, 1, {Hp, H0},     1/2, 2,  1, 1};
-ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1, -1};
+ScalarFields[[1]] =  {H, 1, {Hp, H0},     1/2, 2,  1};
+ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1};
 RealScalars = {s};
 
 
@@ -54,8 +52,10 @@ DEFINITION[GaugeES][LagrangianInput]= {
 LagNoHC = -(
     + mu2 conj[H].H
     + \[Lambda]/2 conj[H].H.conj[H].H
+    + KapSH conj[H].H.s
     + LamSH/2 conj[H].H.s.s
     + MS2/2 s.s
+    + KapS/3 s.s.s
     + LamS/2 s.s.s.s
 );
 
