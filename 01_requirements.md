@@ -1,5 +1,17 @@
 # Requirements
 
+Table of contents
+
+- [Requirements](#requirements)
+   * [Wolfram Mathematica / Wolfram Engine](#wolfram-mathematica-wolfram-engine)
+   * [Compilers and libraries](#compilers-and-libraries)
+   * [HEP software](#hep-software)
+      + [SARAH 4.15.2](#sarah-4152)
+      + [SPheno](#spheno)
+      + [FlexibleSUSY 2.8.0](#flexiblesusy-280)
+      + [FeynArts and FormCalc](#feynarts-and-formcalc)
+      + [micrOMEGAs](#micromegas)
+
 During the workshop we will build and use HEP software.  It would be
 best to bring a laptop with a UNIX-based operating system, like Linux
 (recommended) or MacOS. Ubuntu or Debian would be the best choice,
