@@ -61,12 +61,13 @@ echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, "hep-software", "SARAH"}]];'
 ~~~
 Afterwards, please test the SARAH installation:
 ~~~.sh
-math -run "<< SARAH\`; Quit[]"
+math -run '<< SARAH`; Quit[]'
 ~~~
 
 ### SPheno
 
-We will use SPheno [https://spheno.hepforge.org/]
+We will also use SPheno [https://spheno.hepforge.org/]. Please
+download and extract it before the workshop starts:
 
 ~~~.sh
 mkdir -p ~/hep-software && cd ~/hep-software
@@ -76,7 +77,7 @@ tar -xf SPheno-4.0.5.tar.gz
 
 ### FlexibleSUSY 2.8.0
 
-We will use FlexibleSUSY [https://flexiblesusy.hepforge.org/]. Please
+We will also use FlexibleSUSY [https://flexiblesusy.hepforge.org/]. Please
 download and extract it before the workshop starts:
 ~~~.sh
 mkdir -p ~/hep-software && cd ~/hep-software
@@ -86,9 +87,11 @@ tar -xf FlexibleSUSY-2.8.0.tar.gz
 
 ### FeynArts and FormCalc
 
-For the calculation of decays with FlexibleDecay we'll need FeynArts
-and FormCalc [https://feynarts.de/]. They can be most convenienty
-installed as (hit `y` everytime you get asked to install a package):
+For the calculation of decays with
+[FlexibleDecay](https://arxiv.org/pdf/2106.05038) we'll need FeynArts,
+FormCalc and LoopTools [https://feynarts.de/]. They can be most
+convenienty installed as follows (hit `y` everytime you get asked to
+install a package):
 ~~~.sh
 mkdir -p ~/hep-software && cd ~/hep-software
 wget https://feynarts.de/FeynInstall
@@ -99,7 +102,7 @@ echo 'AppendTo[$Path, FileNameJoin[{$HomeDirectory, "hep-software", "FormCalc"}]
 ~~~
 Afterwards, please test the FeynArts/FormCalc installations:
 ~~~.sh
-math -run "<< FeynArts\`; << FormCalc\`; Quit[]"
+math -run '<< FeynArts`; << FormCalc`; Quit[]'
 ~~~
 Finally, we have to re-compile LoopTools with `-fPIC`:
 ~~~.sh
