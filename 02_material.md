@@ -1,3 +1,18 @@
+Table of contents
+
+- [Standard Model](#standard-model)
+   * [Run SARAH](#run-sarah)
+   * [Create a SPheno spectrum generator](#create-a-spheno-spectrum-generator)
+   * [Create a FlexibleSUSY spectrum generator](#create-a-flexiblesusy-spectrum-generator)
+- [Standard Model + real scalar gauge singlet (SESM)](#standard-model--real-scalar-gauge-singlet-sesm)
+   * [Create SARAH model](#create-sarah-model)
+   * [Create a FlexibleSUSY spectrum generator](#create-a-flexiblesusy-spectrum-generator-1)
+   * [Create a SPheno spectrum generator](#create-a-spheno-spectrum-generator-1)
+- [Standard Model + two scalar singlets (TSESM)](#standard-model--two-scalar-singlets-tsesm)
+   * [Create SARAH model](#create-sarah-model-1)
+   * [FlexibleSUSY model file](#flexiblesusy-model-file)
+   * [micrOMEGAs](#micromegas)
+
 # Standard Model
 
 ## Run SARAH
