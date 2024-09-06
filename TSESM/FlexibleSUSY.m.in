@@ -1,0 +1,86 @@
+FSModelName = "@CLASSNAME@";
+FSEigenstates = SARAH`EWSB;
+FSDefaultSARAHModel = TSESM;
+
+(* TSESM input parameters *)
+
+MINPAR = {};
+
+EXTPAR = {
+    {0, Qin},
+    {1, QEWSB},
+    {2, LambdaIN},
+    {3, LamSIN},
+    {4, LamSHIN},
+    {5, KapSIN},
+    {6, KapSHIN},
+    {7, vSIN},
+    {8, TLamSIN},
+    {9, TLamSHIN},
+    {10, TMS2IN}
+};
+
+EWSBOutputParameters = { mu2, MS2 };
+
+HighScale = Qin;
+
+HighScaleFirstGuess = Qin;
+
+HighScaleInput = {
+    {\[Lambda], LambdaIN},
+    {LamS, LamSIN},
+    {LamSH, LamSHIN},
+    {KapS, KapSIN},
+    {KapSH, KapSHIN},
+    {TLamS, TLamSIN},
+    {TLamSH, TLamSHIN},
+    {TMS2, TMS2IN}
+};
+
+SUSYScale = QEWSB;
+
+SUSYScaleFirstGuess = QEWSB;
+
+SUSYScaleInput = {
+    {vS, vSIN}
+};
+
+LowScale = LowEnergyConstant[MZ];
+
+LowScaleFirstGuess = LowEnergyConstant[MZ];
+
+LowScaleInput = {
+   {v, 2 MZMSbar / Sqrt[GUTNormalization[g1]^2 g1^2 + g2^2]},
+   {Yu, Automatic},
+   {Yd, Automatic},
+   {Ye, Automatic}
+};
+
+InitialGuessAtLowScale = {
+   {v, LowEnergyConstant[vev]},
+   {Yu, Automatic},
+   {Yd, Automatic},
+   {Ye, Automatic}
+};
+
+DefaultPoleMassPrecision = MediumPrecision;
+HighPoleMassPrecision    = {hh};
+MediumPoleMassPrecision  = {};
+LowPoleMassPrecision     = {};
+
+ExtraSLHAOutputBlocks = {
+   {FlexibleSUSYLowEnergy,
+           {{20, FlexibleSUSYObservable`AMM[Fe[1]]},
+            {21, FlexibleSUSYObservable`AMM[Fe[2]]},
+            {22, FlexibleSUSYObservable`AMM[Fe[3]]},
+            {31, FlexibleSUSYObservable`BrLTo3L[Fe, 2 -> {1, 1, 1}, All, 1]},
+            {41, FlexibleSUSYObservable`LToLConversion[Fe, 2 -> 1, Al, All, 1]}
+            } }
+};
+
+FSCalculateDecays = True;
+
+SARAH`ParameterDefinitions = Append[
+    Cases[SARAH`ParameterDefinitions, {p_ /; p =!= SARAH`\[Lambda], ___}],
+    {SARAH`\[Lambda], { Description -> "SM Higgs Selfcouplings" } }
+];

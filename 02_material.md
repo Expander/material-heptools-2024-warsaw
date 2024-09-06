@@ -72,7 +72,7 @@ Create the Standard Model (`SM`) spectrum genrator, configure it and compile it:
 ~~~.sh
 LT=$HOME/hep-software/LoopTools/build
 ./createmodel -f --name=SM
-./configure --with-models=SM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
+./configure --with-models=SM --with-loop-libraries=looptools --with-looptools-incdir=${LT} --with-looptools-libdir=${LT}
 make -j4
 ~~~
 Run the spectrum generator (set `FlexibleSUSY[31] = 2`):
@@ -256,7 +256,7 @@ Now we will create a FlexibleSUSY model file:
    ~~~.sh
    LT=$HOME/hep-software/LoopTools/build
    ./createmodel -f --name=SESM
-   ./configure --with-models=SESM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
+   ./configure --with-models=SESM --with-loop-libraries=looptools --with-looptools-incdir=${LT} --with-looptools-libdir=${LT}
    make -j4
    ~~~
 1. Modify the SESM SLHA input file `model_files/SESM/LesHouches.in.SESM` to set the input parameters to reasonable values:
@@ -348,34 +348,31 @@ Now we turn to create a SPheno model file:
 
 # Standard Model + two scalar singlets (TSESM)
 
-Let's create an extension of the SM by a new scalar singlet field that
-mixes with the Higgs boson. We'll call it "Singlet Extended Standard
-Model" (TSESM). The Lagrangian should be:
+As a second example, let us consider an extension of the SESM by
+another real scalar gauge singlet. The model should be called Two
+Singlet Extension of the Standard Model (\TSESM). The Lagrangian
+should have a global $Z_2$ symmetry with all non-SM fields having
+$Z_2$ charge $-1$. The Lagrangian should be:
 
-$$\mathcal{L} = \mathcal{L}_{SM} - \left[\frac{\lambda_{SH}}{2} H^\dagger H s^2 + \frac{M_S^2}{2} s^2 + \frac{\lambda_S}{2} s^4\right]$$
+$$\mathcal{L}_{TSESM} = \mathcal{L}_{SESM} - \left[\frac{\tilde\lambda_{SH}}{2} H^\dagger H \tilde{s}^2 + \frac{\tilde{M}_S^2}{2} \tilde{s}^2 + \frac{\tilde{\lambda}_S}{2} \tilde{s}^4\right]$$
 
 ## Create SARAH model
 
-1. We start from the SM and copy the SM model files:
+1. We start from the SESM and copy the SESM model files to a new TSESM directory:
    ~~~.sh
    cd ~/hep-software/SARAH
    mkdir -p Models/TSESM
-   cp Models/SM/parameters.m Models/TSESM/
-   cp Models/SM/particles.m Models/TSESM/
-   cp Models/SM/SM.m Models/TSESM/TSESM.m
+   cp Models/SESM/parameters.m Models/TSESM/
+   cp Models/SESM/particles.m Models/TSESM/
+   cp Models/SESM/SESM.m Models/TSESM/TSESM.m
    ~~~
-1. We modify `Models/TSESM/TSESM/TSESM.m`:
+1. We modify `Models/TSESM/TSESM.m`: Add a global $Z_2$ symmetry and assign the charge +1 to each SESM field and -1 to each non-SESM field
    ~~~.m
    Global[[1]] = {Z[2], Z2};
-
-   (* Gauge Groups *)
 
    Gauge[[1]]={B,   U[1], hypercharge, g1, False, 1};
    Gauge[[2]]={WB, SU[2], left,        g2, True , 1};
    Gauge[[3]]={G,  SU[3], color,       g3, False, 1};
-
-
-   (* Matter Fields *)
 
    FermionFields[[1]] = {q, 3, {uL, dL},     1/6, 2,  3, 1};
    FermionFields[[2]] = {l, 3, {vL, eL},    -1/2, 2,  1, 1};
@@ -384,88 +381,58 @@ $$\mathcal{L} = \mathcal{L}_{SM} - \left[\frac{\lambda_{SH}}{2} H^\dagger H s^2 
    FermionFields[[5]] = {e, 3, conj[eR],       1, 1,  1, 1};
 
    ScalarFields[[1]] =  {H, 1, {Hp, H0},     1/2, 2,  1, 1};
-   ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1, -1};
+   ScalarFields[[2]] = {s, 1, Sing, 0, 1, 1, 1};
+   ScalarFields[[3]] = {ts, 1, TSing, 0, 1, 1, -1};
 
-   RealScalars = {s};
+   RealScalars = {s, ts};
 
    LagNoHC = -(
        + mu2 conj[H].H
        + \[Lambda]/2 conj[H].H.conj[H].H
+       + KapSH conj[H].H.s
        + LamSH/2 conj[H].H.s.s
        + MS2/2 s.s
+       + KapS/3 s.s.s
        + LamS/2 s.s.s.s
+       + TLamSH/2 conj[H].H.ts.ts
+       + TMS2/2 ts.ts
+       + TLamS/2 ts.ts.ts.ts
    );
-
-   DEFINITION[EWSB][VEVs] = {
-     {H0, {v, 1/Sqrt[2]}, {Ah, \[ImaginaryI]/Sqrt[2]}, {phiH, 1/Sqrt[2]}},
-     {Sing, {vS, 1}, {0, 0}, {phiS, 1}}
-   };
-
-   DEFINITION[EWSB][MatterSector] = {
-     {{phiH, phiS}, {hh, ZH}},
-     {{{dL}, {conj[dR]}}, {{DL,Vd}, {DR,Ud}}},
-     {{{uL}, {conj[uR]}}, {{UL,Vu}, {UR,Uu}}},
-     {{{eL}, {conj[eR]}}, {{EL,Ve}, {ER,Ue}}}
-   };
    ~~~
-1. We modify `Models/TSESM/TSESM/particles.m`:
+1. We modify `Models/TSESM/particles.m`:
    ~~~.m
-   ParticleDefinitions[GaugeES] = {
-     {Sing, { Description -> "Singlet",
-              PDG -> {0},
-              Width -> 0,
-              Mass -> Automatic,
-              ElectricCharge -> 0,
-              FeynArtsNr -> 3,
-              LaTeX -> "s",
-              OutputName -> "s" }},
-     ...
-   };
-
    ParticleDefinitions[EWSB] = {
-     {hh,  { Description -> "Higgs",
-             PDG -> {25,35},                  (* <-- two PDG numbers *)
-             PDG.IX -> {101000001,101000002}  (* <-- two PDG numbers *)
-           }
-     },
      ...
-   };
-
-   WeylFermionAndIndermediate = {
-     {phiH, { PDG -> {0},       (* <-- name changed H -> phiH *)
-              Width -> 0,
-              Mass -> Automatic,
-              LaTeX -> "H",
-              OutputName -> "" }},
-     ...
+     {TSing,  { Description -> "Singlet",
+                PDG -> {6666635},
+                PDG.IX -> {101000002},
+                FeynArtsNr -> 10,
+                Mass -> LesHouches,
+                LaTeX -> "\\tilde{s}",
+                ElectricCharge -> 0,
+                LHPC -> {"gold"},
+                OutputName -> "ts" }}
    };
    ~~~
-1. Extend `Models/TSESM/TSESM/parameters.m`:
+1. Extend `Models/TSESM/parameters.m`:
    ~~~.m
    ParameterDefinitions = {
      ...
-     {ZH, { Description -> "Scalar-Mixing-Matrix" }},
-     {\[Alpha], { Description -> "Scalar mixing angle" }},
-     {vS, { Dependence -> None,
-            DependenceNum -> None,
-            DependenceOptional -> None,
-            DependenceSPheno -> None,
-            Real -> True,
-            LesHouches -> {HMIX, 51},
-            LaTeX -> "vS",
-            OutputName -> vS}},
-     {LamSH, { LaTeX -> "\\kappa_1",
-               Real -> True,
-               OutputName -> LamSH,
-               LesHouches -> {HMIX,31} }},
-     {LamS, { LaTeX -> "\\lambda_S",
-              Real -> True,
-              OutputName -> LamS,
-              LesHouches -> {HMIX,33} }},
-     {MS2, { LaTeX -> "M_S^2",
-             Real -> True,
-             OutputName -> MS2,
-             LesHouches -> {HMIX,34} }}
+     {TMS2, { Description -> "Singlet mass term",
+              LaTeX -> "\\tilde{M}_{S}^2",
+              Real -> True, 
+	      OutputName -> TMS2,
+              LesHouches -> {HMIX,35} }}, 
+
+     {TLamSH, { OutputName -> TLamSH,
+                LaTeX -> "\\tilde{\\lambda}_{SH}",
+                Real -> True, 
+                LesHouches -> {HMIX,36} }},
+
+     {TLamS, { OutputName -> TLamS,
+               LaTeX -> "\\tilde{\\lambda}_{S}",
+               Real -> True, 
+               LesHouches -> {HMIX,37} }},
    };
    ~~~
 1. Check the model:
@@ -481,27 +448,63 @@ Now we turn to create a FlexibleSUSY model file:
    ~~~.sh
    cd ~/hep-software/FlexibleSUSY-2.8.0
    mkdir -p model_files/TSESM
-   cp model_files/SM/FlexibleSUSY.m.in model_files/TSESM/
-   cp model_files/SM/LesHouches.in.SM model_files/TSESM/LesHouches.in.TSESM
+   cp model_files/SESM/FlexibleSUSY.m.in model_files/TSESM/
+   cp model_files/SESM/LesHouches.in.SESM model_files/TSESM/LesHouches.in.TSESM
    ~~~
 1. Now we edit the FlexibleSUSY model file `model_files/TSESM/FlexibleSUSY.m.in`
    ~~~.m
    FSDefaultSARAHModel = TSESM;
-   [TODO]
+
+   EXTPAR = {
+       {0, Qin},
+       {1, QEWSB},
+       {2, LambdaIN},
+       {3, LamSIN},
+       {4, LamSHIN},
+       {5, KapSIN},
+       {6, KapSHIN},
+       {7, vSIN},
+       {8, TLamSIN},
+       {9, TLamSHIN},
+       {10, TMS2IN}
+   };
+
+   HighScaleInput = {
+       {\[Lambda], LambdaIN},
+       {LamS, LamSIN},
+       {LamSH, LamSHIN},
+       {KapS, KapSIN},
+       {KapSH, KapSHIN},
+       {TLamS, TLamSIN},
+       {TLamSH, TLamSHIN},
+       {TMS2, TMS2IN}
+   };
    ~~~
-1. Create, configure and copile the FlexibleSUSY spectrum generator:
+1. Create, configure and compile the FlexibleSUSY spectrum generator:
    ~~~.sh
    LT=$HOME/hep-software/LoopTools/build
    ./createmodel -f --name=TSESM
-   ./configure --with-models=TSESM --with-loop-libraries=looptools --with-looptools-incdir=$LT --with-looptools-libdir=$LT
+   ./configure --with-models=TSESM --with-loop-libraries=looptools --with-looptools-incdir=${LT} --with-looptools-libdir=${LT}
    make -j4
-   models/TSESM/run_TSESM.x --slha-input-file=models/TSESM/LesHouches.in.TSESM_generated
+   ~~~
+1. Modify the TSESM SLHA input file `model_files/TSESM/LesHouches.in.TSESM` to set the input parameters to reasonable values:
+   ~~~.sh
+   Block EXTPAR  # Input parameters
+       ...
+       8   0.1   # TLamSIN
+       9   0.1   # TLamSHIN
+      10   1e3   # TMS2IN
+   ~~~
+1. Run the spectrum generator with the SLHA input file
+   ~~~.sh
+   models/TSESM/run_TSESM.x --slha-input-file=model_files/TSESM/LesHouches.in.TSESM
    ~~~
 
 ## micrOMEGAs
 
-We can continue to pass the SLHA output to micrOMEGAs. For this, we
-need to first generate appropriate CalcHep model files with SARAH:
+We continue to pass the SLHA output of FlexibleSUSY to micrOMEGAs. For
+this, we need to first generate appropriate CalcHEP model files with
+SARAH:
 ~~~.sh
 cd ~/hep-software/SARAH
 math -run '<< SARAH`; Start["TSESM"]; MakeCHep[DMcandidate1 -> Z2 == -1, IncludeEffectiveHiggsVertices -> False]; Quit[]'
@@ -521,5 +524,13 @@ sed -i~ 's/_dp/   /g' $model_files
 Now we build the CalcHep model file and run the point
 ~~~.sh
 make main=main.cpp
+~~~
+We run FlexibleSUSY to generate an SLHA output file with the particle spectrum. The SLHA output file must be named `SPheno.spc.TSESM` and must be placed next to the `main` exectutable of micrOMEGAs:
+~~~.sh
+FS=$HOME/hep-software/FlexibleSUSY-2.8.0
+$FS/models/TSESM/run_TSESM.x --slha-input-file=$FS/model_files/TSESM/LesHouches.in.TSESM > SPheno.spc.TSESM
+~~~
+Finally, we run micrOMEGAs:
+~~~.sh
 ./main data.par
 ~~~
