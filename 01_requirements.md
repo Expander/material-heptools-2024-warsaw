@@ -39,7 +39,7 @@ Please install all of these.
 
 Installation on Ubuntu:
 ~~~.sh
-sudo apt install gcc g++ gfortran libboost-dev libeigen3-dev libgsl-dev dpkg-dev libx11-dev
+sudo apt install gcc g++ gfortran libboost-dev libeigen3-dev libgsl-dev dpkg-dev
 ~~~
 Installation on MacOS:
 ~~~.sh
