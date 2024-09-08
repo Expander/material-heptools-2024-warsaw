@@ -128,8 +128,22 @@ make
 We will make use of micrOMEGAs [https://lapth.cnrs.fr/micromegas/].
 Please download and compile it as follows:
 ~~~.sh
+mkdir -p ~/hep-software && cd ~/hep-software
 wget https://zenodo.org/records/13376690/files/micromegas_6.1.15.tgz
 tar -xzf micromegas_6.1.15.tgz
 cd micromegas_6.1.15
+make
+~~~
+
+### SModelS
+
+We will pass the SLHA output of micrOMEGAs to SModelS [https://smodels.github.io/].
+Please download and compile it as follows:
+~~~.sh
+mkdir -p ~/hep-software && cd ~/hep-software
+wget https://github.com/SModelS/smodels/archive/refs/tags/3.0.0.tar.gz
+mv 3.0.0.tar.gz smodels-3.0.0.tar.gz
+tar xf smodels-3.0.0.tar.gz
+cd smodels-3.0.0
 make
 ~~~

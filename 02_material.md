@@ -12,6 +12,7 @@ Table of contents
    * [Create SARAH model](#create-sarah-model-1)
    * [FlexibleSUSY model file](#flexiblesusy-model-file)
    * [micrOMEGAs](#micromegas)
+   * [SModelS](#smodels)
 
 # Standard Model
 
@@ -549,3 +550,17 @@ Finally, we run micrOMEGAs:
 ~~~.sh
 ./main data.par
 ~~~
+
+## SModelS
+
+In order to get an SLHA output for `smodels` we add the following line
+to `cd ~/hep-software/micromegas_6.1.15/TSESM/main.cpp`:
+~~~.cpp
+smodels(LHC8+LHC13, 5, 0., const_cast<char*>("smodels.slha"), const_cast<char*>("3.0.0"), 0);
+~~~
+We recompile and re-run micrOMEGAs:
+~~~.sh
+make main=main.cpp
+./main data.par
+~~~
+We now find the SLHA output of micrOMEGAs in `smodels.slha`.
