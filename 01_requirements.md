@@ -10,6 +10,7 @@ Table of contents
    * [FlexibleSUSY 2.8.0](#flexiblesusy-280)
    * [FeynArts and FormCalc](#feynarts-and-formcalc)
    * [micrOMEGAs](#micromegas)
+   * [SModelS](#smodels)
 
 During the workshop we will build and use HEP software.  It would be
 best to bring a laptop with a UNIX-based operating system, like Linux
