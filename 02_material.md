@@ -554,7 +554,7 @@ Finally, we run micrOMEGAs:
 ## SModelS
 
 In order to get an SLHA output for `smodels` we add the following line
-to `cd ~/hep-software/micromegas_6.1.15/TSESM/main.cpp`:
+to `~/hep-software/micromegas_6.1.15/TSESM/main.cpp`:
 ~~~.cpp
 smodels(LHC8+LHC13, 5, 0., const_cast<char*>("smodels.slha"), const_cast<char*>("3.0.0"), 0);
 ~~~
@@ -564,3 +564,14 @@ make main=main.cpp
 ./main data.par
 ~~~
 We now find the SLHA output of micrOMEGAs in `smodels.slha`.
+
+W. Kotlarski has prepared a custom program [`CalcOmega-1DM.cpp`](TSESM/CalcOmega-1DM.cpp).
+Compile and run it as follows:
+~~~
+cd ~/hep-software/micromegas_6.1.15
+mkdir nlohmann && cd nlohmann
+wget https://github.com/nlohmann/json/releases/download/v3.11.3/json.hpp
+cd -
+make main=CalcOmega-1DM.cpp
+./CalcOmega-1DM
+~~~
