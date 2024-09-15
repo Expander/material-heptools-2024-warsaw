@@ -49,7 +49,7 @@ Inspect some output:
 ~~~.sh
 less Output/SM/EWSB/Vertices/VertexListFFV.m
 less Output/SM/RGEs/BetaGauge.m
-less less Output/SM/EWSB/One-Loop/SelfEnergy.m
+less Output/SM/EWSB/One-Loop/SelfEnergy.m
 ~~~
 
 ## Create a SPheno spectrum generator
@@ -57,7 +57,7 @@ less less Output/SM/EWSB/One-Loop/SelfEnergy.m
 ~~~.sh
 cd ~/hep-software/SARAH
 ~~~
-Create the Standard Model (`SM`) spectrum genrator, configure it and compile it:
+Create the Standard Model (`SM`) spectrum generator, configure it and compile it:
 ~~~.sh
 math -run '<< SARAH`; Start["SM"]; MakeSPheno[]; Quit[]'
 ~~~
@@ -84,7 +84,7 @@ Go to the FlexibleSUSY directory:
 ~~~.sh
 cd ~/hep-software/FlexibleSUSY-2.8.0
 ~~~
-Create the Standard Model (`SM`) spectrum genrator, configure it and compile it:
+Create the Standard Model (`SM`) spectrum generator, configure it and compile it:
 ~~~.sh
 LT=$HOME/hep-software/LoopTools/build
 ./createmodel -f --name=SM
@@ -366,7 +366,7 @@ Now we turn to create a SPheno model file:
 
 As a second example, let us consider an extension of the SESM by
 another real scalar gauge singlet. The model should be called Two
-Singlet Extension of the Standard Model (\TSESM). The Lagrangian
+Singlet Extension of the Standard Model (TSESM). The Lagrangian
 should have a global $Z_2$ symmetry with all non-SM fields having
 $Z_2$ charge $-1$. The Lagrangian should be:
 
