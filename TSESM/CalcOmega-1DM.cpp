@@ -2,8 +2,6 @@
 #include "lib/pmodel.h"
 #include"../include/micromegas_aux.h"
 
-#include "nlohmann/json.hpp"
-
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -30,8 +28,8 @@ int main(int argc, char** argv)
    // calculated internally (0, the default option)
    useSLHAwidth = 0;
 
-   pWidthPref(const_cast<char*>("SOc"), 3);
-   pWidthPref(const_cast<char*>("POc"), 3);
+   //pWidthPref(const_cast<char*>("SOc"), 3);
+   //pWidthPref(const_cast<char*>("POc"), 3);
    // switches to turn on/off processes with off-shell gauge bosons
    // in the final state for DM annihilation and particle decays.
    // 1: 3-body final state in annihilation
@@ -91,16 +89,6 @@ int main(int argc, char** argv)
       SCcoeff1*std::norm(nA0[0]),   SCcoeff1*std::norm(nA0[1]),
       3*SCcoeff1*std::norm(nA5[0]), 3*SCcoeff1*std::norm(nA5[1])
    );
-   nlohmann::json dm1 = {
-      {"name", CDM[1]},
-      {"mass", McdmN[1]},
-      {"relic_density", Omega},
-      {"direct_detection", {
-           {"particle",     {{"fp", pA0[0]}, {"fn", nA0[0]}, {"fp5", pA5[0]}, {"fn5", nA5[0]}}},
-           {"antiparticle", {{"fp", pA0[1]}, {"fn", nA0[1]}, {"fp5", pA5[1]}, {"fn5", nA5[1]}}}
-         }
-      }
-   };
    std::cout << std::flush;
 
    char* expName;
@@ -114,29 +102,17 @@ int main(int argc, char** argv)
    }
    std::cout << std::flush;
 
-   nlohmann::json dd = {
-      {"pval", pval},
-      {"expName", expName}
-   };
-   nlohmann::json particles = nlohmann::json::array();
-   particles.push_back(dm1);
-   particles.push_back(dd);
-
-   std::ofstream o("micrOMEGAs.json", std::ios::out | std::ios::trunc);
-   o << std::scientific << std::setw(4) << particles << std::endl;
-   o.close();
-
    if (argc > 1 && atoi(argv[1])) {
       smodels (LHC8+LHC13, 5, 0.0001, const_cast<char*>("smodels.slha"), const_cast<char*>("2.3.0"), 0);
    }
 
-   //double cs_lep;
-   //LspNlsp_LEP(&cs_lep);
-   //std::cout << "\nLEP limit... " << cs_lep << '\n';
+   double cs_lep;
+   LspNlsp_LEP(&cs_lep);
+   std::cout << "\nLEP limit... " << cs_lep << '\n';
 
-   //const double CL = monoJet();
-   //std::cout << "Mono-jet " << CL << '\n';
-   //std::cout << "\nExcluded by invisible Z width? " << Zinvisible() << '\n';
+   const double CL = monoJet();
+   std::cout << "Mono-jet " << CL << '\n';
+   std::cout << "\nExcluded by invisible Z width? " << Zinvisible() << '\n';
 
   	return 0;
 }
